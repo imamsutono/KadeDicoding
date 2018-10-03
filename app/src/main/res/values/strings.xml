@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Football Match Schedule</string>
+    <string name="susunan_pemain">Susunan Pemain</string>
+    <string name="tendangan">Tendangan</string>
+    <string name="formasi">Formasi</string>
+    <string name="statistik">Statistik Pertandingan</string>
+    <string name="penjaga_gawang">Penjaga Gawang</string>
+    <string name="pemain_belakang">Pemain Belakang</string>
+    <string name="logo_klub">Logo klub</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

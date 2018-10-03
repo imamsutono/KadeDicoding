@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="4dp"
+    style="@style/MatchItem">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/header"
+            style="@style/MatchItemDate">
+
+            <TextView
+                android:id="@+id/date_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/home_team"
+                style="@style/MatchItemTeam"/>
+
+            <TextView
+                android:id="@+id/prev_match_score"
+                style="@style/MatchItemScore"/>
+
+            <TextView
+                android:id="@+id/away_team"
+                style="@style/MatchItemTeam"
+                android:textAlignment="viewEnd"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
