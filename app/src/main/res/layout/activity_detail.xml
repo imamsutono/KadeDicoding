@@ -5,132 +5,145 @@
     android:layout_height="wrap_content"
     tools:context=".detail.DetailActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/detail_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
 
         <LinearLayout
+            android:id="@+id/detail_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="#eaeaea"
-            android:baselineAligned="false">
-
-            <LinearLayout style="@style/MatchDetailTeamScore">
-
-                <ImageView
-                    android:id="@+id/home_badge"
-                    style="@style/MatchDetailBadge"
-                    android:contentDescription="@string/logo_klub"/>
-
-                <TextView
-                    android:id="@+id/home_team"
-                    style="@style/MatchDetailTeamName"/>
-
-                <TextView
-                    android:id="@+id/home_goal"
-                    style="@style/MatchDetailGoal"/>
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/MatchDetailTeamScore">
-
-                <TextView
-                    android:id="@+id/date_event"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textSize="28sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <LinearLayout style="@style/MatchDetailTeamScore">
-
-                <ImageView
-                    android:id="@+id/away_badge"
-                    style="@style/MatchDetailBadge"
-                    android:contentDescription="@string/logo_klub"/>
-
-                <TextView
-                    android:id="@+id/away_team"
-                    style="@style/MatchDetailTeamName"/>
-
-                <TextView
-                    android:id="@+id/away_goal"
-                    style="@style/MatchDetailGoal"
-                    android:textAlignment="viewEnd"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/statistik"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:padding="8dp"
+                android:background="#eaeaea"
+                android:baselineAligned="false">
 
-                <TextView
-                    android:id="@+id/home_formation"
-                    style="@style/OneWeightItems"/>
+                <LinearLayout style="@style/MatchDetailTeamScore">
 
-                <TextView
-                    style="@style/MatchDetailPosition"
-                    android:text="@string/formasi"/>
+                    <ImageView
+                        android:id="@+id/home_badge"
+                        style="@style/MatchDetailBadge"
+                        android:contentDescription="@string/logo_klub"/>
 
-                <TextView
-                    android:id="@+id/away_formation"
-                    style="@style/OneWeightItems"
-                    android:textAlignment="viewEnd"/>
+                    <TextView
+                        android:id="@+id/home_team"
+                        style="@style/MatchDetailTeamName"/>
+
+                    <TextView
+                        android:id="@+id/home_goal"
+                        style="@style/MatchDetailGoal"/>
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/MatchDetailTeamScore">
+
+                    <TextView
+                        android:id="@+id/date_event"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textSize="28sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/MatchDetailTeamScore">
+
+                    <ImageView
+                        android:id="@+id/away_badge"
+                        style="@style/MatchDetailBadge"
+                        android:contentDescription="@string/logo_klub"/>
+
+                    <TextView
+                        android:id="@+id/away_team"
+                        style="@style/MatchDetailTeamName"/>
+
+                    <TextView
+                        android:id="@+id/away_goal"
+                        style="@style/MatchDetailGoal"
+                        android:textAlignment="viewEnd"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:padding="8dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/home_shots"
-                    style="@style/OneWeightItems"/>
-
-                <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textAlignment="center"
-                    android:text="@string/tendangan"/>
+                    android:textSize="16sp"
+                    android:text="@string/statistik"/>
 
-                <TextView
-                    android:id="@+id/away_shots"
-                    style="@style/OneWeightItems"
-                    android:textAlignment="viewEnd"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/home_formation"
+                        style="@style/OneWeightItems"/>
+
+                    <TextView
+                        style="@style/MatchDetailPosition"
+                        android:text="@string/formasi"/>
+
+                    <TextView
+                        android:id="@+id/away_formation"
+                        style="@style/OneWeightItems"
+                        android:textAlignment="viewEnd"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/home_shots"
+                        style="@style/OneWeightItems"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textAlignment="center"
+                        android:text="@string/tendangan"/>
+
+                    <TextView
+                        android:id="@+id/away_shots"
+                        style="@style/OneWeightItems"
+                        android:textAlignment="viewEnd"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/lineup" />
 
             </LinearLayout>
-
-            <include layout="@layout/lineup" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>
