@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
 
-class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "FavoriteEvent.db", null, 1) {
+class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "FavoriteMatch.db", null, 1) {
     companion object {
         private var instance: MyDatabaseOpenHelper? = null
 
@@ -24,8 +24,8 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
                 Favorite.EVENT_DATE to TEXT,
                 Favorite.HOME_TEAM to TEXT,
                 Favorite.AWAY_TEAM to TEXT,
-                Favorite.HOME_SCORE to INTEGER,
-                Favorite.AWAY_SCORE to INTEGER)
+                Favorite.HOME_SCORE to TEXT,
+                Favorite.AWAY_SCORE to TEXT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

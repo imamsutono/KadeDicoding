@@ -1,6 +1,14 @@
 package com.imamsutono.footballmatchschedule.db
 
-data class Favorite(val id: Long?, val teamId: String?, val teamName: String?, val teamBadge: String?) {
+data class Favorite(
+        val id: Long?,
+        val idEvent: String?,
+        val eventDate: String?,
+        val homeTeam: String?,
+        val awayTeam: String?,
+        val homeScore: String?,
+        val awayScore: String?
+) {
 
     companion object {
         const val TABLE_FAVORITE: String = "TABLE_FAVORITE"
