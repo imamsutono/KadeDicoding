@@ -43,6 +43,9 @@ class DetailActivity : AppCompatActivity(), DetailView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        supportActionBar?.title = "Match Detail"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         presenter = DetailPresenter(this)
         linearLayout = detail_view
         progressBar = detail_progress_bar
