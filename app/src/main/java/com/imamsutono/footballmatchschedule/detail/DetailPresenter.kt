@@ -1,6 +1,5 @@
 package com.imamsutono.footballmatchschedule.detail
 
-import android.util.Log
 import android.widget.ImageView
 import com.imamsutono.footballmatchschedule.model.*
 import com.imamsutono.footballmatchschedule.service.ServiceGenerator
@@ -17,6 +16,7 @@ class DetailPresenter(private val view: DetailView) {
         val call: Call<MatchDetail> = config.getMatchDetail(id)
 
         view.showLoading()
+
         call.enqueue(object: Callback<MatchDetail> {
             override fun onFailure(call: Call<MatchDetail>, t: Throwable) {
                 t.message?.let { error(it) }
@@ -25,7 +25,6 @@ class DetailPresenter(private val view: DetailView) {
             override fun onResponse(call: Call<MatchDetail>, response: Response<MatchDetail>) {
                 if (response.code() == 200) {
                     val resp = response.body()
-                    val datas: MutableList<MatchDetailData> = mutableListOf()
 
                     resp?.data?.let {
                         view.showMatchDetail(it)
@@ -41,7 +40,7 @@ class DetailPresenter(private val view: DetailView) {
 
         callTeam.enqueue(object: Callback<Team> {
             override fun onFailure(call: Call<Team>, t: Throwable) {
-                Log.e("callteam", t.toString())
+                t.message?.let { error(it) }
             }
 
             override fun onResponse(call: Call<Team>, response: Response<Team>) {

@@ -17,6 +17,7 @@ import com.imamsutono.footballmatchschedule.model.MatchData
 import com.imamsutono.footballmatchschedule.model.MatchList
 import com.imamsutono.footballmatchschedule.service.ServiceGenerator
 import com.imamsutono.footballmatchschedule.service.ServiceInterface
+import com.imamsutono.footballmatchschedule.util.invisible
 import kotlinx.android.synthetic.main.fragment_prev_match.view.*
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
@@ -66,7 +67,7 @@ class PrevMatchFragment : Fragment() {
                     list.adapter = MatchAdapter(datas) {
                         context?.startActivity<DetailActivity>("id" to it.idEvent)
                     }
-                    progressBar.visibility = ProgressBar.INVISIBLE
+                    progressBar.invisible()
                 }
             }
         })
