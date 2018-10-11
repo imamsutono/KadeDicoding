@@ -87,10 +87,6 @@ class MainActivityTest {
         onView(withText("FAVORITE")).perform(click())
 
         sleep(DELAY)
-        // scroll to first item in favorite recycler view
-        onView(withId(favorites_match_list)).perform(
-                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0)
-        )
         // click first item in favorite recycler view. item is added in past test
         onView(withId(favorites_match_list)).perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
@@ -103,7 +99,7 @@ class MainActivityTest {
         pressBack()
 
         sleep(DELAY)
-        // swipe down favorite tab to refresh recycler view and check that item is removed
+        // swipe down favorite tab to refresh recycler view and check that item is removed from database
         onView(withId(favorite_swipe_refresh)).perform(swipeDown())
 
         sleep(DELAY)
