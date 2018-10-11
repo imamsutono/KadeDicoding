@@ -31,19 +31,19 @@ class MainActivityTest {
         Assert.assertEquals("com.imamsutono.footballmatchschedule", appContext.packageName)
     }
 
-    // test for swipe between tab is work correctly
-    @Test
-    fun swipePage() {
-        onView(withId(viewpager_main)).check(matches(isDisplayed()))
-        onView(withId(viewpager_main)).perform(swipeLeft())
-    }
-
     // check for tab layout is displayed
     @Test
     fun checkTabLayoutDisplayed() {
         onView(withId(tabs_main))
                 .perform(click())
                 .check(matches(isDisplayed()))
+    }
+
+    // test for swipe between tab is work correctly
+    @Test
+    fun swipePage() {
+        onView(withId(viewpager_main)).check(matches(isDisplayed()))
+        onView(withId(viewpager_main)).perform(swipeLeft())
     }
 
     @Test
