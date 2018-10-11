@@ -41,8 +41,10 @@ class DetailPresenterTest {
     fun testGetMatchDetail() {
         val list: List<MatchDetailData> = listOf()
 
+        // execute get match detail to request data from API
         presenter.getMatchDetail(id)
 
+        // verify that showLoading method is called
         verify(view).showLoading()
 
         call.enqueue(object: Callback<MatchDetail> {
@@ -51,7 +53,9 @@ class DetailPresenterTest {
             }
 
             override fun onResponse(call: Call<MatchDetail>, response: Response<MatchDetail>) {
+                // verify that showMatchDetail method is called
                 verify(view).showMatchDetail(list)
+                // verify that hideLoading method is called
                 verify(view).hideLoading()
             }
         })
