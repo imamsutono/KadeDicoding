@@ -29,7 +29,7 @@ class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val awayTeamTxt: TextView = view.find(R.id.away_team)
 
     fun bindItem(matchs: Match, listener: (Match) -> Unit) {
-        val (idEvent, dateEvent, homeTeam, awayTeam, homeScore, awayScore) = matchs
+        val (_, dateEvent, homeTeam, awayTeam, homeScore, awayScore) = matchs
         val scores = if (homeScore != null) "$homeScore vs $awayScore" else ""
 
         dateEventTxt.text = dateEvent
