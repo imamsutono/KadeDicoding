@@ -30,7 +30,7 @@ import org.jetbrains.anko.toast
 
 class DetailActivity : AppCompatActivity(), DetailView {
     private lateinit var presenter: DetailPresenter
-    private lateinit var matchs: MatchData
+    private lateinit var matchs: Match
     private lateinit var linearLayout: LinearLayout
     private lateinit var progressBar: ProgressBar
 
@@ -104,7 +104,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
         presenter.callTeam(data.idHomeTeam, homeBadge)
         presenter.callTeam(data.idAwayTeam, awayBadge)
 
-        matchs = MatchData(id, data.dateEvent, data.homeTeamName, data.awayTeamName, data.homeScore, data.awayScore)
+        matchs = Match(id, data.dateEvent, data.homeTeamName, data.awayTeamName, data.homeScore, data.awayScore)
 
         menuItem?.getItem(0)?.isVisible = true
     }

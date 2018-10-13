@@ -14,8 +14,8 @@ interface ServiceInterface {
     fun getTeamDetail(@Query("id") id: String?): Call<Team>
 
     @GET("api/v1/json/1/eventspastleague.php")
-    fun getPrevMatch(@Query("id") id: String?): Call<MatchList>
+    fun getPrevMatch(@Query("id") id: String?): Call<MatchResponse>
 
     @GET("api/v1/json/1/eventsnextleague.php")
-    fun getNextMatch(@Query("id") id: String?): Call<MatchList>
+    fun getNextMatch(@Query("id") id: String?): Call<MatchResponse>
 }

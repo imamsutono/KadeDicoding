@@ -2,12 +2,12 @@ package com.imamsutono.footballmatchschedule.model
 
 import com.google.gson.annotations.SerializedName
 
-data class MatchList(
+data class MatchResponse(
     @SerializedName("events")
-    val data: MutableList<MatchData>?
+    val data: MutableList<Match>?
 )
 
-data class MatchData(
+data class Match(
     @SerializedName("idEvent")
     val idEvent: String?,
 
