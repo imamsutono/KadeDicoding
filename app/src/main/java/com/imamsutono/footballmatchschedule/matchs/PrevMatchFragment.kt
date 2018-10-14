@@ -12,14 +12,25 @@ import android.widget.ProgressBar
 import com.imamsutono.footballmatchschedule.R
 import com.imamsutono.footballmatchschedule.detail.DetailActivity
 import com.imamsutono.footballmatchschedule.model.Match
+import com.imamsutono.footballmatchschedule.model.MatchResponse
+import com.imamsutono.footballmatchschedule.repository.MatchRepository
 import com.imamsutono.footballmatchschedule.util.invisible
 import com.imamsutono.footballmatchschedule.util.visible
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
 class PrevMatchFragment : Fragment(), MatchView {
+
     private lateinit var presenter: MatchPresenter
     private lateinit var progressBar: ProgressBar
+
+    override fun onDataLoaded(data: MatchResponse?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDataError() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -27,14 +38,14 @@ class PrevMatchFragment : Fragment(), MatchView {
         val view: View = inflater.inflate(R.layout.fragment_prev_match, container, false)
         val swipe = view.find<SwipeRefreshLayout>(R.id.prev_match_swipe_refresh)
 
-        presenter = MatchPresenter(this)
+        presenter = MatchPresenter(this, MatchRepository())
         progressBar = view.find(R.id.prev_match_progressbar)
 
-        presenter.getMatch("prev")
+        presenter.getPrevMatch("4328")
 
         swipe.setOnRefreshListener {
             swipe.isRefreshing = false
-            presenter.getMatch("prev")
+            presenter.getPrevMatch("4328")
         }
 
         // Inflate the layout for this fragment

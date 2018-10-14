@@ -1,41 +1,36 @@
 package com.imamsutono.footballmatchschedule.matchs
 
 import com.imamsutono.footballmatchschedule.model.MatchResponse
-import com.imamsutono.footballmatchschedule.service.ServiceGenerator
-import com.imamsutono.footballmatchschedule.service.ServiceInterface
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.imamsutono.footballmatchschedule.repository.MatchRepository
+import com.imamsutono.footballmatchschedule.repository.MatchRepositoryCallback
 
-class MatchPresenter(private val matchView: MatchView) {
+class MatchPresenter(private val view: MatchView, private val matchRepository: MatchRepository) {
 
-    fun getMatch(match: String) {
-        val config: ServiceInterface = ServiceGenerator.createBase().create(ServiceInterface::class.java)
-        val leagueId = "4328" // English Premier League
-        val call: Call<MatchResponse> = when(match) {
-            "next" -> config.getNextMatch(leagueId)
-            else -> config.getPrevMatch(leagueId)
-        }
-
-        matchView.showLoading()
-
-        call.enqueue(object: Callback<MatchResponse> {
-            override fun onFailure(call: Call<MatchResponse>, t: Throwable) {
-                t.message?.let { error(it) }
+    fun getPrevMatch(id: String) {
+        view.showLoading()
+        matchRepository.getPrevMatch(id, object : MatchRepositoryCallback<MatchResponse?> {
+            override fun onDataLoaded(data: MatchResponse?) {
+                view.onDataLoaded(data)
             }
 
-            override fun onResponse(call: Call<MatchResponse>, response: Response<MatchResponse>) {
-                if (response.code() == 200) {
-                    val resp = response.body()
-
-                    resp?.data?.let {
-                        matchView.showMatchs(it)
-                    }
-
-                    matchView.hideLoading()
-                }
+            override fun onDataError() {
+                view.onDataError()
             }
-
         })
+        view.hideLoading()
+    }
+
+    fun getNextMatch(id: String) {
+        view.showLoading()
+        matchRepository.getNextMatch(id, object : MatchRepositoryCallback<MatchResponse?> {
+            override fun onDataLoaded(data: MatchResponse?) {
+                view.onDataLoaded(data)
+            }
+
+            override fun onDataError() {
+                view.onDataError()
+            }
+        })
+        view.hideLoading()
     }
 }
