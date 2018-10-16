@@ -1,60 +1,43 @@
 package com.imamsutono.footballmatchschedule.detail
 
-import android.widget.ImageView
 import com.imamsutono.footballmatchschedule.model.*
-import com.imamsutono.footballmatchschedule.service.ServiceGenerator
-import com.imamsutono.footballmatchschedule.service.ServiceInterface
-import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.imamsutono.footballmatchschedule.repository.DetailRepository
+import com.imamsutono.footballmatchschedule.repository.DetailRepositoryCallback
+import com.imamsutono.footballmatchschedule.repository.TeamRepository
+import com.imamsutono.footballmatchschedule.repository.TeamRepositoryCallback
 
-class DetailPresenter(private val view: DetailView) {
-    private val config: ServiceInterface = ServiceGenerator.createBase().create(ServiceInterface::class.java)
+class DetailPresenter(
+        private val view: DetailView,
+        private val teamView: TeamView,
+        private val detailRepository: DetailRepository,
+        private val teamRepository: TeamRepository
+) {
 
     fun getMatchDetail(id: String) {
-        val call: Call<MatchDetail> = config.getMatchDetail(id)
-
         view.showLoading()
-
-        call.enqueue(object: Callback<MatchDetail> {
-            override fun onFailure(call: Call<MatchDetail>, t: Throwable) {
-                t.message?.let { error(it) }
+        detailRepository.getMatchDetail(id, object : DetailRepositoryCallback<MatchDetailResponse?> {
+            override fun onDataLoaded(data: MatchDetailResponse?) {
+                view.onDataLoaded(data)
             }
 
-            override fun onResponse(call: Call<MatchDetail>, response: Response<MatchDetail>) {
-                if (response.code() == 200) {
-                    val resp = response.body()
-
-                    resp?.data?.let {
-                        view.showMatchDetail(it)
-                    }
-                    view.hideLoading()
-                }
+            override fun onDataError() {
+                view.onDataError()
             }
         })
+        view.hideLoading()
     }
 
-    fun callTeam(teamId: String?, imgView: ImageView) {
-        val callTeam: Call<Team> = config.getTeamDetail(teamId)
-
-        callTeam.enqueue(object: Callback<Team> {
-            override fun onFailure(call: Call<Team>, t: Throwable) {
-                t.message?.let { error(it) }
+    fun getTeamBadge(id: String?, team: String) {
+        view.showLoading()
+        teamRepository.getTeamBadge(id, team, object : TeamRepositoryCallback<TeamResponse?> {
+            override fun onTeamLoaded(data: TeamResponse?, team: String) {
+                teamView.onTeamLoaded(data, team)
             }
 
-            override fun onResponse(call: Call<Team>, response: Response<Team>) {
-                if (response.code() == 200) {
-                    val teamResponse = response.body()
-                    val datas: MutableList<TeamData> = mutableListOf()
-
-                    teamResponse?.data?.let { datas.addAll(it) }
-                    val badge = datas[0].badge
-
-                    Picasso.get().load(badge).into(imgView)
-                }
+            override fun onTeamError() {
+                teamView.onTeamError()
             }
-
         })
+        view.hideLoading()
     }
 }

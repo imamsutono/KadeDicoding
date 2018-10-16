@@ -17,18 +17,22 @@ import com.imamsutono.footballmatchschedule.R.menu.detail_menu
 import com.imamsutono.footballmatchschedule.db.Favorite
 import com.imamsutono.footballmatchschedule.db.database
 import com.imamsutono.footballmatchschedule.model.*
+import com.imamsutono.footballmatchschedule.repository.DetailRepository
+import com.imamsutono.footballmatchschedule.repository.TeamRepository
 import com.imamsutono.footballmatchschedule.util.invisible
 import com.imamsutono.footballmatchschedule.util.visible
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.lineup.*
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
+import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 
-class DetailActivity : AppCompatActivity(), DetailView {
+class DetailActivity : AppCompatActivity(), DetailView, TeamView {
     private lateinit var presenter: DetailPresenter
     private lateinit var matchs: Match
     private lateinit var linearLayout: LinearLayout
@@ -38,6 +42,13 @@ class DetailActivity : AppCompatActivity(), DetailView {
     private var isFavorite: Boolean = false
     private lateinit var id: String
 
+    override fun onDataLoaded(data: MatchDetailResponse?) {
+        showMatchDetail(data?.data)
+    }
+
+    override fun onDataError() {
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -45,7 +56,7 @@ class DetailActivity : AppCompatActivity(), DetailView {
         supportActionBar?.title = "Match Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        presenter = DetailPresenter(this)
+        presenter = DetailPresenter(this, this, DetailRepository(), TeamRepository())
         linearLayout = detail_view
         progressBar = detail_progress_bar
         id = intent.getStringExtra("id")
@@ -73,40 +84,54 @@ class DetailActivity : AppCompatActivity(), DetailView {
         progressBar.invisible()
     }
 
-    override fun showMatchDetail(datas: List<MatchDetailData>) {
-        val data = datas[0]
-        val scores = if (data.homeScore != null) "${data.homeScore} vs ${data.awayScore}" else ""
+    override fun showMatchDetail(datas: List<MatchDetail>?) {
+        val data = datas?.get(0)
+        val scores = if (data?.homeScore != null) "${data.homeScore} vs ${data.awayScore}" else ""
 
-        home_team.text = data.homeTeamName
-        home_goal.text = data.homeGoals?.replace(";", "\n")
+        home_team.text = data?.homeTeamName
+        home_goal.text = data?.homeGoals?.replace(";", "\n")
 
-        date_event.text = data.dateEvent
+        date_event.text = data?.dateEvent
         score.text = scores
 
-        away_team.text = data.awayTeamName
-        away_goal.text = data.awayGoals?.replace(";", "\n")
+        away_team.text = data?.awayTeamName
+        away_goal.text = data?.awayGoals?.replace(";", "\n")
 
-        home_formation.text = data.homeFormation
-        away_formation.text = data.awayFormation
-        home_shots.text = data.homeShots
-        away_shots.text = data.awayShots
+        home_formation.text = data?.homeFormation
+        away_formation.text = data?.awayFormation
+        home_shots.text = data?.homeShots
+        away_shots.text = data?.awayShots
 
-        home_team_name.text = data.homeTeamName
-        home_goalkeeper.text = data.homeGoalkeeper
-        home_defense.text = data.homeDefense?.replace(";", "\n")
-        away_team_name.text = data.awayTeamName
-        away_goalkeeper.text = data.awayGoalkeeper
-        away_defense.text = data.awayDefense?.replace(";", "\n")
+        home_team_name.text = data?.homeTeamName
+        home_goalkeeper.text = data?.homeGoalkeeper
+        home_defense.text = data?.homeDefense?.replace(";", "\n")
+        away_team_name.text = data?.awayTeamName
+        away_goalkeeper.text = data?.awayGoalkeeper
+        away_defense.text = data?.awayDefense?.replace(";", "\n")
 
-        val homeBadge: ImageView = findViewById(R.id.home_badge)
-        val awayBadge: ImageView = findViewById(R.id.away_badge)
+        presenter.getTeamBadge(data?.idHomeTeam, "home")
+        presenter.getTeamBadge(data?.idAwayTeam, "away")
 
-        presenter.callTeam(data.idHomeTeam, homeBadge)
-        presenter.callTeam(data.idAwayTeam, awayBadge)
-
-        matchs = Match(id, data.dateEvent, data.homeTeamName, data.awayTeamName, data.homeScore, data.awayScore)
+        matchs = Match(id, data?.dateEvent, data?.homeTeamName, data?.awayTeamName, data?.homeScore, data?.awayScore)
 
         menuItem?.getItem(0)?.isVisible = true
+    }
+
+    override fun onTeamLoaded(data: TeamResponse?, team: String) {
+        showTeamBadge(data?.data, team)
+    }
+
+    override fun onTeamError() {
+    }
+
+    override fun showTeamBadge(data: List<Team>?, team: String) {
+        val imgView: ImageView = when(team) {
+            "home" -> find(R.id.home_badge)
+            else -> find(R.id.away_badge)
+        }
+        val badge = data?.get(0)?.badge
+
+        Picasso.get().load(badge).into(imgView)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

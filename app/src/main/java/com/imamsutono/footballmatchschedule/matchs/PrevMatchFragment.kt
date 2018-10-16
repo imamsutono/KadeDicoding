@@ -20,16 +20,16 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
 class PrevMatchFragment : Fragment(), MatchView {
-
     private lateinit var presenter: MatchPresenter
     private lateinit var progressBar: ProgressBar
+    private lateinit var list: RecyclerView
+    private var matchs: MutableList<Match> = mutableListOf()
 
     override fun onDataLoaded(data: MatchResponse?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showMatchs(data?.data)
     }
 
     override fun onDataError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +38,14 @@ class PrevMatchFragment : Fragment(), MatchView {
         val view: View = inflater.inflate(R.layout.fragment_prev_match, container, false)
         val swipe = view.find<SwipeRefreshLayout>(R.id.prev_match_swipe_refresh)
 
+        list = view.find(R.id.prev_match_list)
         presenter = MatchPresenter(this, MatchRepository())
         progressBar = view.find(R.id.prev_match_progressbar)
+
+        list.layoutManager = LinearLayoutManager(context)
+        list.adapter = MatchAdapter(matchs) {
+            context?.startActivity<DetailActivity>("id" to it.idEvent)
+        }
 
         presenter.getPrevMatch("4328")
 
@@ -60,12 +66,11 @@ class PrevMatchFragment : Fragment(), MatchView {
         progressBar.invisible()
     }
 
-    override fun showMatchs(data: List<Match>) {
-        val list = view?.find<RecyclerView>(R.id.prev_match_list)
-
-        list?.layoutManager = LinearLayoutManager(context)
-        list?.adapter = MatchAdapter(data) {
-            context?.startActivity<DetailActivity>("id" to it.idEvent)
+    override fun showMatchs(data: List<Match>?) {
+        matchs.clear()
+        if (data != null) {
+            matchs.addAll(data)
         }
+        list.adapter.notifyDataSetChanged()
     }
 }

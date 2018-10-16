@@ -33,9 +33,8 @@ class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val awayTeamTxt: TextView = view.find(R.id.away_team)
 
     fun bindItem(favorite: Favorite) {
-        val (id, idEvent, eventDate, homeTeam, awayTeam, homeScore, awayScore) = favorite
+        val (_, idEvent, eventDate, homeTeam, awayTeam, homeScore, awayScore) = favorite
         val scores = if (homeScore != null) "$homeScore vs $awayScore" else ""
-//        val dates = DateTimeFormatter.ofPattern(dateEvent)
 
         dateEventTxt.text = eventDate
         homeTeamTxt.text = homeTeam

@@ -1,18 +1,19 @@
 package com.imamsutono.footballmatchschedule.detail
 
-import com.imamsutono.footballmatchschedule.model.MatchDetail
-import com.imamsutono.footballmatchschedule.model.MatchDetailData
-import com.imamsutono.footballmatchschedule.service.ServiceGenerator
-import com.imamsutono.footballmatchschedule.service.ServiceInterface
+import com.imamsutono.footballmatchschedule.model.MatchDetailResponse
+import com.imamsutono.footballmatchschedule.model.TeamResponse
+import com.imamsutono.footballmatchschedule.repository.DetailRepository
+import com.imamsutono.footballmatchschedule.repository.DetailRepositoryCallback
+import com.imamsutono.footballmatchschedule.repository.TeamRepository
+import com.imamsutono.footballmatchschedule.repository.TeamRepositoryCallback
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.eq
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test
 
 import org.junit.Before
 import org.mockito.Mock
-import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailPresenterTest {
 
@@ -20,44 +21,67 @@ class DetailPresenterTest {
     private lateinit var view: DetailView
 
     @Mock
-    private lateinit var call: Call<MatchDetail>
+    private lateinit var teamView: TeamView
 
     @Mock
-    private lateinit var config: ServiceInterface
+    private lateinit var matchDetailRepository: DetailRepository
 
-    private lateinit var presenter: DetailPresenter
-    private val id = "441613"
+    @Mock
+    private lateinit var teamRepository: TeamRepository
+
+    @Mock
+    private lateinit var matchDetailResponse: MatchDetailResponse
+
+    @Mock
+    private lateinit var matchDetailPresenter: DetailPresenter
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        presenter = DetailPresenter(view)
-        config = ServiceGenerator.createBase().create(ServiceInterface::class.java)
-        call = config.getMatchDetail(id)
+        matchDetailPresenter = DetailPresenter(view, teamView, matchDetailRepository, teamRepository)
     }
 
     @Test
-    fun testGetMatchDetail() {
-        val list: List<MatchDetailData> = listOf()
+    fun getMatchLoadedTest() {
+        val id = "441613"
 
-        // execute get match detail to request data from API
-        presenter.getMatchDetail(id)
+        matchDetailPresenter.getMatchDetail(id)
 
-        // verify that showLoading method is called
+        argumentCaptor<DetailRepositoryCallback<MatchDetailResponse?>>().apply {
+
+            verify(matchDetailRepository).getMatchDetail(eq(id), capture())
+            firstValue.onDataLoaded(matchDetailResponse)
+        }
+
         verify(view).showLoading()
+        verify(view).onDataLoaded(matchDetailResponse)
+        verify(view).hideLoading()
+    }
 
-        call.enqueue(object: Callback<MatchDetail> {
-            override fun onFailure(call: Call<MatchDetail>, t: Throwable) {
+    @Test
+    fun getMatchErrorTest() {
+        matchDetailPresenter.getMatchDetail("")
 
-            }
+        argumentCaptor<DetailRepositoryCallback<MatchDetailResponse?>>().apply {
 
-            override fun onResponse(call: Call<MatchDetail>, response: Response<MatchDetail>) {
-                // verify that showMatchDetail method is called
-                verify(view).showMatchDetail(list)
-                // verify that hideLoading method is called
-                verify(view).hideLoading()
-            }
-        })
+            verify(matchDetailRepository).getMatchDetail(eq(""), capture())
+            firstValue.onDataError()
+        }
+
+        verify(view).showLoading()
+        verify(view).onDataError()
+        verify(view).hideLoading()
+    }
+
+    @Test
+    fun getTeamBadgeTest() {
+        val id = "133604"
+
+        matchDetailPresenter.getTeamBadge(id, "home")
+
+        argumentCaptor<TeamRepositoryCallback<TeamResponse?>>().apply {
+            verify(teamRepository).getTeamBadge(eq(id), eq("home"), capture())
+        }
     }
 }

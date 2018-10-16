@@ -7,5 +7,5 @@ import com.imamsutono.footballmatchschedule.repository.MatchRepositoryCallback
 interface MatchView : MatchRepositoryCallback<MatchResponse> {
     fun showLoading()
     fun hideLoading()
-    fun showMatchs(data: List<Match>)
+    fun showMatchs(data: List<Match>?)
 }
