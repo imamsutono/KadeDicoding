@@ -33,6 +33,9 @@ class DetailPresenterTest {
     private lateinit var matchDetailResponse: MatchDetailResponse
 
     @Mock
+    private lateinit var teamResponse: TeamResponse
+
+    @Mock
     private lateinit var matchDetailPresenter: DetailPresenter
 
     @Before
@@ -82,6 +85,7 @@ class DetailPresenterTest {
 
         argumentCaptor<TeamRepositoryCallback<TeamResponse?>>().apply {
             verify(teamRepository).getTeamBadge(eq(id), eq("home"), capture())
+            firstValue.onTeamLoaded(teamResponse, "home")
         }
     }
 }
