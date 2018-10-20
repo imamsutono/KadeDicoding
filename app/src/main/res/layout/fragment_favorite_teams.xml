@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    tools:context=".favorites.matchs.FavoriteMatchsFragment">
+    tools:context=".favorites.teams.FavoriteTeamsFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_favorite_matchs"
+        android:id="@+id/swipe_favorite_teams"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/favorites_match_list"
+            android:id="@+id/rv_favorite_teams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
