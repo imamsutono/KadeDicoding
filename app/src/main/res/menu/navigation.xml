@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_1"
+        android:id="@+id/tab_item_matchs"
         android:icon="@drawable/ic_add_to_favorites"
-        android:title="Tab 1"/>
+        android:title="@string/matches"/>
     <item
-        android:id="@+id/navigation_2"
+        android:id="@+id/tab_item_teams"
         android:icon="@drawable/ic_add_to_favorites"
-        android:title="Tab 2"/>
+        android:title="@string/teams"/>
     <item
-        android:id="@+id/navigation_3"
+        android:id="@+id/tab_item_favorites"
         android:icon="@drawable/ic_add_to_favorites"
-        android:title="Tab 3"/>
+        android:title="@string/favorites"/>
 </menu>
