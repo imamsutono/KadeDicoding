@@ -8,6 +8,12 @@ data class TeamResponse(
 )
 
 data class Team(
+    @SerializedName("idTeam")
+    val teamId: String?,
+
+    @SerializedName("strTeam")
+    val teamName: String?,
+
     @SerializedName("strTeamBadge")
     val badge: String?
 )

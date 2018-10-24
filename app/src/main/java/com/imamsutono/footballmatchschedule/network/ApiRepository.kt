@@ -19,4 +19,7 @@ interface ApiRepository {
 
     @GET("api/v1/json/1/eventsnextleague.php")
     fun getNextMatch(@Query("id") id: String?): Call<MatchResponse>
+
+    @GET("api/v1/json/1/search_all_teams.php")
+    fun getTeamList(@Query("l") league: String?): Call<TeamResponse>
 }

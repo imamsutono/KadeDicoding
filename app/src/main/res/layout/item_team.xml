@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/relativelayout_team"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,6 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_toEndOf="@id/img_team_badge"/>
+        android:layout_toEndOf="@id/img_team_badge"
+        android:gravity="center_vertical"
+        android:textStyle="bold" />
 
 </RelativeLayout>

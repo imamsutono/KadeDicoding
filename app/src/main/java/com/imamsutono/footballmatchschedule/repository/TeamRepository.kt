@@ -30,4 +30,26 @@ class TeamRepository {
 
                 })
     }
+
+    fun getTeamList(league: String?, callback: TeamRepositoryCallback<TeamResponse?>) {
+        MyRetrofit
+                .createService(ApiRepository::class.java)
+                .getTeamList(league)
+                .enqueue(object : Callback<TeamResponse?> {
+                    override fun onFailure(call: Call<TeamResponse?>?, t: Throwable?) {
+                        callback.onTeamError()
+                    }
+
+                    override fun onResponse(call: Call<TeamResponse?>?, response: Response<TeamResponse?>?) {
+                        response?.let {
+                            if (it.isSuccessful) {
+                                callback.onTeamLoaded(it.body(), "")
+                            } else {
+                                callback.onTeamError()
+                            }
+                        }
+                    }
+
+                })
+    }
 }
