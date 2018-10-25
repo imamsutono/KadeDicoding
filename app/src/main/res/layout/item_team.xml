@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_toEndOf="@id/img_team_badge"
-        android:gravity="center_vertical"
+        android:layout_centerInParent="true"
         android:textStyle="bold" />
 
 </RelativeLayout>

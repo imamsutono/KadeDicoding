@@ -11,10 +11,10 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 
 import com.imamsutono.footballmatchschedule.R
-import com.imamsutono.footballmatchschedule.detail.DetailActivity
 import com.imamsutono.footballmatchschedule.model.Team
 import com.imamsutono.footballmatchschedule.model.TeamResponse
 import com.imamsutono.footballmatchschedule.repository.TeamRepository
+import com.imamsutono.footballmatchschedule.teamdetail.TeamDetailActivity
 import com.imamsutono.footballmatchschedule.util.invisible
 import com.imamsutono.footballmatchschedule.util.visible
 import org.jetbrains.anko.find
@@ -39,7 +39,7 @@ class TeamFragment : Fragment(), TeamView {
 
         list.layoutManager = LinearLayoutManager(context)
         list.adapter = TeamAdapter(teams) {
-            context?.startActivity<DetailActivity>("id" to it.teamId)
+            context?.startActivity<TeamDetailActivity>("id" to it.teamId)
         }
 
         presenter.getTeamList("English Premier League")
