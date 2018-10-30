@@ -11,13 +11,14 @@ class MatchPresenter(private val view: MatchView, private val matchRepository: M
         matchRepository.getPrevMatch(id, object : MatchRepositoryCallback<MatchResponse?> {
             override fun onDataLoaded(data: MatchResponse?) {
                 view.onDataLoaded(data)
+                view.hideLoading()
             }
 
             override fun onDataError() {
                 view.onDataError()
+                view.hideLoading()
             }
         })
-        view.hideLoading()
     }
 
     fun getNextMatch(id: String) {
@@ -25,12 +26,29 @@ class MatchPresenter(private val view: MatchView, private val matchRepository: M
         matchRepository.getNextMatch(id, object : MatchRepositoryCallback<MatchResponse?> {
             override fun onDataLoaded(data: MatchResponse?) {
                 view.onDataLoaded(data)
+                view.hideLoading()
             }
 
             override fun onDataError() {
                 view.onDataError()
+                view.hideLoading()
             }
         })
-        view.hideLoading()
+    }
+
+    fun searchMatch(eventName: String?) {
+        view.showLoading()
+
+        matchRepository.searchMatch(eventName, object : MatchRepositoryCallback<MatchResponse?> {
+            override fun onDataLoaded(data: MatchResponse?) {
+                view.onDataLoaded(data)
+                view.hideLoading()
+            }
+
+            override fun onDataError() {
+                view.onDataError()
+                view.hideLoading()
+            }
+        })
     }
 }

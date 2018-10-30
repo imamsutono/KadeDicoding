@@ -52,4 +52,48 @@ class TeamRepository {
 
                 })
     }
+
+    fun searchTeam(teamName: String?, callback: TeamRepositoryCallback<TeamResponse?>) {
+        MyRetrofit
+                .createService(ApiRepository::class.java)
+                .searchTeam(teamName)
+                .enqueue(object : Callback<TeamResponse?> {
+                    override fun onFailure(call: Call<TeamResponse?>?, t: Throwable?) {
+                        callback.onTeamError()
+                    }
+
+                    override fun onResponse(call: Call<TeamResponse?>?, response: Response<TeamResponse?>?) {
+                        response?.let {
+                            if (it.isSuccessful) {
+                                callback.onTeamLoaded(it.body(), "")
+                            } else {
+                                callback.onTeamError()
+                            }
+                        }
+                    }
+
+                })
+    }
+
+    fun getTeamDetail(id: String?, callback: TeamRepositoryCallback<TeamResponse?>) {
+        MyRetrofit
+                .createService(ApiRepository::class.java)
+                .getTeamDetail(id)
+                .enqueue(object : Callback<TeamResponse?> {
+                    override fun onFailure(call: Call<TeamResponse?>?, t: Throwable?) {
+                        callback.onTeamError()
+                    }
+
+                    override fun onResponse(call: Call<TeamResponse?>?, response: Response<TeamResponse?>?) {
+                        response?.let {
+                            if (it.isSuccessful) {
+                                callback.onTeamLoaded(it.body(), "")
+                            } else {
+                                callback.onTeamError()
+                            }
+                        }
+                    }
+
+                })
+    }
 }

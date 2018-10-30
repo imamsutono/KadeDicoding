@@ -1,23 +1,25 @@
-package com.imamsutono.footballmatchschedule.teamdetail.player
+package com.imamsutono.footballmatchschedule.teamdetail.playerdetail
 
 import com.imamsutono.footballmatchschedule.model.PlayerResponse
 import com.imamsutono.footballmatchschedule.repository.PlayerRepository
 import com.imamsutono.footballmatchschedule.repository.PlayerRepositoryCallback
 
-class TeamPlayerPresenter(private val view: TeamPlayerView, private val repository: PlayerRepository) {
+class PlayerDetailPresenter(private val view: PlayerDetailView, private val repository: PlayerRepository) {
 
-    fun getTeamPlayer(teamId: String?) {
+    fun getPlayerDetail(id: String?) {
         view.showLoading()
-        repository.getTeamPlayer(teamId, object : PlayerRepositoryCallback<PlayerResponse?> {
+
+        repository.getPlayerDetail(id, object : PlayerRepositoryCallback<PlayerResponse?> {
             override fun onDataLoaded(data: PlayerResponse?) {
                 view.onDataLoaded(data)
+                view.hideLoading()
             }
 
             override fun onDataError() {
                 view.onDataError()
+                view.hideLoading()
             }
 
         })
-        view.hideLoading()
     }
 }

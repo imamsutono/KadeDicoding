@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.imamsutono.footballmatchschedule.R
-import com.imamsutono.footballmatchschedule.db.FavoriteTeams
+import com.imamsutono.footballmatchschedule.db.FavoriteTeam
 import com.imamsutono.footballmatchschedule.db.database
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.select
@@ -18,7 +18,7 @@ import org.jetbrains.anko.find
 
 class FavoriteTeamsFragment : Fragment() {
 
-    private val favorites: MutableList<FavoriteTeams> = mutableListOf()
+    private val favorites: MutableList<FavoriteTeam> = mutableListOf()
     private lateinit var adapter: FavoriteTeamsAdapter
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -47,8 +47,8 @@ class FavoriteTeamsFragment : Fragment() {
 
     private fun showFavorite() {
         context?.database?.use {
-            val result = select(FavoriteTeams.TABLE_FAVORITE_TEAMS)
-            val favorite = result.parseList(classParser<FavoriteTeams>())
+            val result = select(FavoriteTeam.TABLE_FAVORITE_TEAM)
+            val favorite = result.parseList(classParser<FavoriteTeam>())
             favorites.clear()
             favorites.addAll(favorite)
             adapter.notifyDataSetChanged()

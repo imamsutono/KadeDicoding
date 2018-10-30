@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.imamsutono.footballmatchschedule.R
-import com.imamsutono.footballmatchschedule.db.FavoriteTeams
-import com.imamsutono.footballmatchschedule.detail.DetailActivity
+import com.imamsutono.footballmatchschedule.db.FavoriteTeam
+import com.imamsutono.footballmatchschedule.teamdetail.TeamDetailActivity
 import com.squareup.picasso.Picasso
 import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
-class FavoriteTeamsAdapter(private val favorite: List<FavoriteTeams>)
+class FavoriteTeamsAdapter(private val favorite: List<FavoriteTeam>)
     : RecyclerView.Adapter<FavoriteTeamsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteTeamsViewHolder =
@@ -31,14 +31,14 @@ class FavoriteTeamsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val imgTeamBadge: ImageView = view.find(R.id.img_team_badge)
     private val txtTeamName: TextView = view.find(R.id.tv_team_name)
 
-    fun bindItem(favorite: FavoriteTeams) {
+    fun bindItem(favorite: FavoriteTeam) {
         val (_, teamId, teamName, teamBadge) = favorite
 
         txtTeamName.text = teamName
         Picasso.get().load(teamBadge).into(imgTeamBadge)
 
         itemView.setOnClickListener {
-            it?.context?.startActivity<DetailActivity>("id" to teamId)
+            it?.context?.startActivity<TeamDetailActivity>("id" to teamId)
         }
     }
 }

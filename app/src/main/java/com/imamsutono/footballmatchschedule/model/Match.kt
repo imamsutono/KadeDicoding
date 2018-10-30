@@ -4,7 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class MatchResponse(
     @SerializedName("events")
-    val data: List<Match>?
+    val data: List<Match>?,
+
+    @SerializedName("event")
+    val search: List<Match>?
 )
 
 data class Match(
@@ -24,5 +27,8 @@ data class Match(
     val homeScore: String?,
 
     @SerializedName("intAwayScore")
-    val awayScore: String?
+    val awayScore: String?,
+
+    @SerializedName("strTime")
+    val timeEvent: String?
 )

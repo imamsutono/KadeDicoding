@@ -6,11 +6,13 @@ import android.support.test.espresso.Espresso.pressBack
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import com.imamsutono.footballmatchschedule.R.id.*
+import com.imamsutono.footballmatchschedule.home.HomeActivity
 import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
@@ -18,12 +20,12 @@ import org.junit.runner.RunWith
 import java.lang.Thread.sleep
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class HomeActivityTest {
 
     private val DELAY: Long = 2000
 
     @Rule
-    @JvmField var activityRule = ActivityTestRule(MainActivity::class.java)
+    @JvmField var activityRule = ActivityTestRule(HomeActivity::class.java)
 
     @Test
     fun useAppContext() {
@@ -31,38 +33,18 @@ class MainActivityTest {
         Assert.assertEquals("com.imamsutono.footballmatchschedule", appContext.packageName)
     }
 
-    // check for tab layout is displayed
-    @Test
-    fun checkTabLayoutDisplayed() {
-        onView(withId(tabs_main))
-                .perform(click())
-                .check(matches(isDisplayed()))
-    }
-
-    // test for swipe between tab is work correctly
-    @Test
-    fun swipePage() {
-        onView(withId(viewpager_main)).check(matches(isDisplayed()))
-        onView(withId(viewpager_main)).perform(swipeLeft())
-    }
-
     @Test
     fun testAppBehaviour() {
-        // delay code execution
         sleep(DELAY)
-        // check recycler view is displayed
-        onView(withId(prev_match_list))
-                .check(matches(isDisplayed()))
+        onView(withId(viewpager_home)).check(matches(isDisplayed()))
+        onView(withId(viewpager_home)).perform(swipeLeft())
 
         sleep(DELAY)
-        // scroll recycler view to item in position 5
         onView(withId(prev_match_list)).perform(
-                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5)
-        )
-        // click item in position 5 in recycler view, and go to detail activity
+                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5))
+        // click item in position 5 in recycler view, and go to team detail activity
         onView(withId(prev_match_list)).perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click())
-        )
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click()))
 
         sleep(DELAY)
         // check home team badge image view is displayed
@@ -79,29 +61,92 @@ class MainActivityTest {
         onView(withId(add_to_favorite)).perform(click())
 
         sleep(DELAY)
-        // back from detail activity to main activity
         pressBack()
 
+        onView(withId(tab_item_teams)).perform(click())
+        onView(withId(rv_team)).check(matches(isDisplayed()))
+
+        // fragment team
         sleep(DELAY)
-        // click view that contain FAVORITE text, in this case is favorite tab
-        onView(withText("FAVORITE")).perform(click())
+        // check recyclerview is has data
+        onView(withText("Arsenal")).check(matches(isDisplayed()))
 
         sleep(DELAY)
-        // click first item in favorite recycler view. item is added in past test
+        onView(withId(spinner_league)).perform(click())
+        onView(withText("Spanish La Liga")).perform(click())
+
+        sleep(DELAY)
+        onView(withText("Barcelona")).check(matches(isDisplayed()))
+
+        onView(withId(rv_team)).perform(
+                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5)
+        )
+        // click item in position 5 in recycler view, and go to team detail activity
+        onView(withId(rv_team)).perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click())
+        )
+
+        // team detail activity
+        sleep(DELAY)
+        onView(withId(viewpager_team)).perform(swipeLeft())
+
+        sleep(DELAY)
+        onView(withId(rv_player)).check(matches(isDisplayed()))
+        onView(withId(rv_player)).perform(
+                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5)
+        )
+        // click item in position 5 in recycler view, and go to team detail activity
+        onView(withId(rv_player)).perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click())
+        )
+
+        // team player detail activity
+        onView(withId(img_player_fanart))
+                .check(matches(isDisplayed()))
+        sleep(DELAY)
+        pressBack()
+
+        // team detail activity
+        onView(withId(add_to_favorite))
+                .check(matches(isDisplayed()))
+        onView(withId(add_to_favorite)).perform(click())
+
+        sleep(DELAY)
+        pressBack()
+        onView(withId(tab_item_favorites)).perform(click())
+
+        // favorite fragment
+        sleep(DELAY)
+        onView(withId(favorites_match_list))
+                .check(matches(isDisplayed()))
         onView(withId(favorites_match_list)).perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
         )
 
+        // match detail activity
         sleep(DELAY)
-        // click add to favorite menu to removed item from sqlite database
+        onView(withId(add_to_favorite))
+                .check(matches(isDisplayed()))
         onView(withId(add_to_favorite)).perform(click())
 
+        sleep(DELAY)
         pressBack()
-
-        sleep(DELAY)
-        // swipe down favorite tab to refresh recycler view and check that item is removed from database
+        // favorite fragment
         onView(withId(swipe_favorite_matchs)).perform(swipeDown())
+        onView(withId(viewpager_favorite)).perform(swipeLeft())
 
         sleep(DELAY)
+        onView(withId(rv_favorite_teams)).perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click())
+        )
+
+        sleep(DELAY)
+        onView(withId(add_to_favorite))
+                .check(matches(isDisplayed()))
+        onView(withId(add_to_favorite)).perform(click())
+
+        sleep(DELAY)
+        pressBack()
+        onView(withId(swipe_favorite_teams)).perform(swipeDown())
     }
 }

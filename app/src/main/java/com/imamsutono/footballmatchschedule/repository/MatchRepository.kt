@@ -52,4 +52,26 @@ class MatchRepository {
 
                 })
     }
+
+    fun searchMatch(eventName: String?, callback: MatchRepositoryCallback<MatchResponse?>) {
+        MyRetrofit
+                .createService(ApiRepository::class.java)
+                .searchMatch(eventName)
+                .enqueue(object : Callback<MatchResponse?> {
+                    override fun onFailure(call: Call<MatchResponse?>?, t: Throwable?) {
+                        callback.onDataError()
+                    }
+
+                    override fun onResponse(call: Call<MatchResponse?>?, response: Response<MatchResponse?>?) {
+                        response?.let {
+                            if (it.isSuccessful) {
+                                callback.onDataLoaded(it.body())
+                            } else {
+                                callback.onDataError()
+                            }
+                        }
+                    }
+
+                })
+    }
 }
