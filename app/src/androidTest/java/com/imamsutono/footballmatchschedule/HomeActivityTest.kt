@@ -100,7 +100,7 @@ class MainActivityTest {
 
         sleep(DELAY)
         // swipe down favorite tab to refresh recycler view and check that item is removed from database
-        onView(withId(favorite_swipe_refresh)).perform(swipeDown())
+        onView(withId(swipe_favorite_matchs)).perform(swipeDown())
 
         sleep(DELAY)
     }
