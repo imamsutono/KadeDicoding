@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="8dp"
     tools:context=".matchs.PrevMatchFragment">
-    
-    <ProgressBar
-        android:id="@+id/prev_match_progressbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+
+    <Spinner
+        android:id="@+id/spinner_league_prev_match"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/prev_match_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/prev_match_list"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_prev_match"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ProgressBar
+                android:id="@+id/prev_match_progressbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</FrameLayout>
+</LinearLayout>

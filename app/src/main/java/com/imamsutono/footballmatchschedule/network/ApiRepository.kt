@@ -17,12 +17,12 @@ interface ApiRepository {
 //    @GET("lookupteam.json")
     fun getTeamDetail(@Query("id") id: String?): Call<TeamResponse>
 
+    //    @GET("eventspastleague.json")
     @GET("api/v1/json/1/eventspastleague.php")
-//    @GET("eventspastleague.json")
     fun getPrevMatch(@Query("id") id: String?): Call<MatchResponse>
 
+    //    @GET("eventsnextleague.json")
     @GET("api/v1/json/1/eventsnextleague.php")
-//    @GET("eventsnextleague.json")
     fun getNextMatch(@Query("id") id: String?): Call<MatchResponse>
 
         @GET("api/v1/json/1/searchevents.php")

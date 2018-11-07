@@ -22,7 +22,6 @@ import org.jetbrains.anko.find
 import org.jetbrains.anko.startActivity
 
 class SearchMatchActivity : AppCompatActivity(), MatchView {
-
     private lateinit var presenter: MatchPresenter
     private lateinit var list: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -86,6 +85,9 @@ class SearchMatchActivity : AppCompatActivity(), MatchView {
 
     override fun hideLoading() {
         progressBar.invisible()
+    }
+
+    override fun onPrevMatchLoaded(data: MatchResponse?) {
     }
 
     override fun showMatchs(data: List<Match>?) {

@@ -6,7 +6,6 @@ import android.support.test.espresso.Espresso.pressBack
 import android.support.test.espresso.action.ViewActions.*
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
@@ -40,10 +39,10 @@ class HomeActivityTest {
         onView(withId(viewpager_home)).perform(swipeLeft())
 
         sleep(DELAY)
-        onView(withId(prev_match_list)).perform(
+        onView(withId(rv_prev_match)).perform(
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(5))
         // click item in position 5 in recycler view, and go to team detail activity
-        onView(withId(prev_match_list)).perform(
+        onView(withId(rv_prev_match)).perform(
                 RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(5, click()))
 
         sleep(DELAY)
