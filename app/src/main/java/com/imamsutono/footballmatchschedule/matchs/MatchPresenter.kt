@@ -47,11 +47,11 @@ class MatchPresenter(private val view: MatchView, private val matchRepository: M
 
         matchRepository.searchMatch(eventName, object : MatchRepositoryCallback<MatchResponse?> {
             override fun onPrevMatchLoaded(data: MatchResponse?) {
-                view.onDataLoaded(data)
-                view.hideLoading()
             }
 
             override fun onDataLoaded(data: MatchResponse?) {
+                view.onDataLoaded(data)
+                view.hideLoading()
             }
 
             override fun onDataError() {

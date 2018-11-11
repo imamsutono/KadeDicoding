@@ -45,6 +45,7 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailView {
 
         supportActionBar?.title = "Team Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.elevation = 0.0f
 
         presenter = TeamDetailPresenter(this, TeamRepository())
         progressBar = find(R.id.progressbar_team_detail)
