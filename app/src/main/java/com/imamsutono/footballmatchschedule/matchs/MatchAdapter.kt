@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.imamsutono.footballmatchschedule.R
-import com.imamsutono.footballmatchschedule.detail.DetailActivity
 import com.imamsutono.footballmatchschedule.model.MatchData
 import org.jetbrains.anko.find
-import org.jetbrains.anko.startActivity
 
-class MatchAdapter(private val matchs: List<MatchData>)
+class MatchAdapter(private val matchs: List<MatchData>, private val listener: (MatchData) -> Unit)
     : RecyclerView.Adapter<MatchViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder =
             MatchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.match_item, parent, false))
@@ -19,7 +17,7 @@ class MatchAdapter(private val matchs: List<MatchData>)
     override fun getItemCount(): Int = matchs.size
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
-        holder.bindItem(matchs[position])
+        holder.bindItem(matchs[position], listener)
     }
 }
 
@@ -30,7 +28,7 @@ class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val scoreTxt: TextView = view.find(R.id.prev_match_score)
     private val awayTeamTxt: TextView = view.find(R.id.away_team)
 
-    fun bindItem(matchs: MatchData) {
+    fun bindItem(matchs: MatchData, listener: (MatchData) -> Unit) {
         val (idEvent, dateEvent, homeTeam, awayTeam, homeScore, awayScore) = matchs
         val scores = if (homeScore != null) "$homeScore vs $awayScore" else ""
 //        val dates = DateTimeFormatter.ofPattern(dateEvent)
@@ -39,9 +37,6 @@ class MatchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         homeTeamTxt.text = homeTeam
         scoreTxt.text = scores
         awayTeamTxt.text = awayTeam
-
-        itemView.setOnClickListener {
-            it?.context?.startActivity<DetailActivity>("idEvent" to idEvent)
-        }
+        itemView.setOnClickListener { listener(matchs) }
     }
 }
