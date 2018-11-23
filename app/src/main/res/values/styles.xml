@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
     </style>
 
     <style name="OneWeightItems">
@@ -78,6 +80,11 @@
     </style>
     <style name="MatchDetailPosition" parent="OneWeightItems">
         <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="TeamBadge">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
     </style>
 
 </resources>

@@ -42,11 +42,11 @@ class MatchPresenterTest {
         argumentCaptor<MatchRepositoryCallback<MatchResponse?>>().apply {
 
             verify(matchRepository).getPrevMatch(eq(id), capture())
-            firstValue.onDataLoaded(matchResponse)
+            firstValue.onPrevMatchLoaded(matchResponse)
         }
 
         verify(view).showLoading()
-        verify(view).onDataLoaded(matchResponse)
+        verify(view).onPrevMatchLoaded(matchResponse)
         verify(view).hideLoading()
     }
 

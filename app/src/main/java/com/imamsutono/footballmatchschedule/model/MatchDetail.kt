@@ -11,6 +11,9 @@ data class MatchDetail(
     @SerializedName("dateEvent")
     val dateEvent: String?,
 
+    @SerializedName("strTime")
+    val timeEvent: String?,
+
     @SerializedName("strHomeTeam")
     val homeTeamName: String?,
 

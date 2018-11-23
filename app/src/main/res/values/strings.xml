@@ -8,4 +8,19 @@
     <string name="pemain_belakang">Pemain Belakang</string>
     <string name="logo_klub">Logo klub</string>
     <string name="favorites">Favorites</string>
+    <string name="matches">Matches</string>
+    <string name="teams">Teams</string>
+    <string name="search">Search</string>
+
+    <string name="weight_kg">Weight (Kg)</string>
+    <string name="height_m">Height (m)</string>
+
+    <array name="league">
+        <item>English Premier League</item>
+        <item>English League Championship</item>
+        <item>German Bundesliga</item>
+        <item>Italian Serie A</item>
+        <item>French Ligue 1</item>
+        <item>Spanish La Liga</item>
+    </array>
 </resources>

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".favorites.FavoriteMatchsFragment">
+    tools:context=".favorites.matchs.FavoriteMatchsFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/favorite_swipe_refresh"
+        android:id="@+id/swipe_favorite_matchs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

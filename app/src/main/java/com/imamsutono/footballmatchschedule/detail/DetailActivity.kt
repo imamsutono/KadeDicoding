@@ -14,12 +14,14 @@ import com.imamsutono.footballmatchschedule.R.drawable.ic_add_to_favorites
 import com.imamsutono.footballmatchschedule.R.drawable.ic_added_to_favorites
 import com.imamsutono.footballmatchschedule.R.id.add_to_favorite
 import com.imamsutono.footballmatchschedule.R.menu.detail_menu
-import com.imamsutono.footballmatchschedule.db.Favorite
+import com.imamsutono.footballmatchschedule.db.FavoriteMatchs
 import com.imamsutono.footballmatchschedule.db.database
 import com.imamsutono.footballmatchschedule.model.*
 import com.imamsutono.footballmatchschedule.repository.DetailRepository
 import com.imamsutono.footballmatchschedule.repository.TeamRepository
+import com.imamsutono.footballmatchschedule.util.getDate
 import com.imamsutono.footballmatchschedule.util.invisible
+import com.imamsutono.footballmatchschedule.util.toGMTFormat
 import com.imamsutono.footballmatchschedule.util.visible
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -31,8 +33,11 @@ import org.jetbrains.anko.db.select
 import org.jetbrains.anko.find
 import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailActivity : AppCompatActivity(), DetailView, TeamView {
+
     private lateinit var presenter: DetailPresenter
     private lateinit var matchs: Match
     private lateinit var linearLayout: LinearLayout
@@ -67,9 +72,9 @@ class DetailActivity : AppCompatActivity(), DetailView, TeamView {
 
     private fun favoriteState() {
         database.use {
-            val result = select(Favorite.TABLE_FAVORITE)
+            val result = select(FavoriteMatchs.TABLE_FAVORITE_MATCHS)
                     .whereArgs("(EVENT_ID = {id})", "id" to id)
-            val favorite = result.parseList(classParser<Favorite>())
+            val favorite = result.parseList(classParser<FavoriteMatchs>())
             if (!favorite.isEmpty()) isFavorite = true
         }
     }
@@ -87,11 +92,14 @@ class DetailActivity : AppCompatActivity(), DetailView, TeamView {
     override fun showMatchDetail(datas: List<MatchDetail>?) {
         val data = datas?.get(0)
         val scores = if (data?.homeScore != null) "${data.homeScore} vs ${data.awayScore}" else ""
+        val date = data?.dateEvent?.replace("-", "/")
+        val timeFormatted = toGMTFormat(date, data?.timeEvent)
 
         home_team.text = data?.homeTeamName
         home_goal.text = data?.homeGoals?.replace(";", "\n")
 
-        date_event.text = data?.dateEvent
+        date_event.text = getDate(Date(date))
+        time_event.text = SimpleDateFormat("HH:mm").format(timeFormatted)
         score.text = scores
 
         away_team.text = data?.awayTeamName
@@ -112,7 +120,7 @@ class DetailActivity : AppCompatActivity(), DetailView, TeamView {
         presenter.getTeamBadge(data?.idHomeTeam, "home")
         presenter.getTeamBadge(data?.idAwayTeam, "away")
 
-        matchs = Match(id, data?.dateEvent, data?.homeTeamName, data?.awayTeamName, data?.homeScore, data?.awayScore)
+        matchs = Match(id, data?.dateEvent, data?.homeTeamName, data?.awayTeamName, data?.homeScore, data?.awayScore, data?.timeEvent)
 
         menuItem?.getItem(0)?.isVisible = true
     }
@@ -164,13 +172,13 @@ class DetailActivity : AppCompatActivity(), DetailView, TeamView {
     private fun addToFavorite() {
         try {
             database.use {
-                insert(Favorite.TABLE_FAVORITE,
-                        Favorite.EVENT_ID to matchs.idEvent,
-                        Favorite.EVENT_DATE to matchs.dateEvent,
-                        Favorite.HOME_TEAM to matchs.homeTeam,
-                        Favorite.AWAY_TEAM to matchs.awayTeam,
-                        Favorite.HOME_SCORE to matchs.homeScore,
-                        Favorite.AWAY_SCORE to matchs.awayScore)
+                insert(FavoriteMatchs.TABLE_FAVORITE_MATCHS,
+                        FavoriteMatchs.EVENT_ID to matchs.idEvent,
+                        FavoriteMatchs.EVENT_DATE to matchs.dateEvent,
+                        FavoriteMatchs.HOME_TEAM to matchs.homeTeam,
+                        FavoriteMatchs.AWAY_TEAM to matchs.awayTeam,
+                        FavoriteMatchs.HOME_SCORE to matchs.homeScore,
+                        FavoriteMatchs.AWAY_SCORE to matchs.awayScore)
             }
 
             toast("Added to Favorite")
@@ -182,7 +190,7 @@ class DetailActivity : AppCompatActivity(), DetailView, TeamView {
     private fun removeFromFavorite() {
         try {
             database.use {
-                delete(Favorite.TABLE_FAVORITE, "(EVENT_ID = {id})", "id" to id)
+                delete(FavoriteMatchs.TABLE_FAVORITE_MATCHS, "(EVENT_ID = {id})", "id" to id)
             }
 
             toast("Removed from Favorite")
